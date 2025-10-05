@@ -1,0 +1,1990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Payment System - Software Requirements Specification</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            counter-reset: section subsection subsubsection;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        header .standard {
+            font-size: 1rem;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .document-info {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .document-info table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .document-info th, .document-info td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        .document-info th {
+            background-color: #f2f6fc;
+            color: #1e3c72;
+            width: 25%;
+            font-weight: 600;
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #2a5298;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eaeaea;
+            counter-increment: section;
+            counter-reset: subsection;
+        }
+        
+        h2:before {
+            content: counter(section) ". ";
+        }
+        
+        h3 {
+            color: #1e3c72;
+            margin: 25px 0 15px;
+            counter-increment: subsection;
+            counter-reset: subsubsection;
+        }
+        
+        h3:before {
+            content: counter(section) "." counter(subsection) " ";
+        }
+        
+        h4 {
+            color: #2a5298;
+            margin: 20px 0 12px;
+            counter-increment: subsubsection;
+        }
+        
+        h4:before {
+            content: counter(section) "." counter(subsection) "." counter(subsubsection) " ";
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f6fc;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+        
+        .diagram-container {
+            background: #f9fafc;
+            border: 1px solid #e1e5eb;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+        
+        .diagram-title {
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .mermaid {
+            text-align: center;
+            margin: 0 auto;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .requirement-id {
+            background: #1e3c72;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .requirement-item {
+            margin-bottom: 18px;
+            padding: 15px;
+            border-left: 4px solid #2a5298;
+            background: #f8fafd;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .use-case-table, .interface-table {
+            width: 100%;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .use-case-table th, .interface-table th {
+            width: 25%;
+            background: #e8eff7;
+        }
+        
+        .traceability-matrix {
+            font-size: 0.9rem;
+        }
+        
+        .traceability-matrix th {
+            background: #e8eff7;
+            text-align: center;
+        }
+        
+        .traceability-matrix td {
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px;
+            color: #6b7c93;
+            border-top: 1px solid #eaeaea;
+            font-size: 0.9rem;
+        }
+        
+        .toc {
+            background: #f2f6fc;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .toc h2 {
+            border-bottom: none;
+            margin-bottom: 15px;
+        }
+        
+        .toc ul {
+            columns: 2;
+            list-style-type: none;
+            margin-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 8px;
+        }
+        
+        .toc a {
+            color: #1e3c72;
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+            background: #e8eff7;
+            padding-left: 10px;
+            border-radius: 4px;
+        }
+        
+        .toc ul ul {
+            columns: 1;
+            margin-left: 20px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .toc ul ul li:before {
+            content: "▪ ";
+            color: #2a5298;
+        }
+        
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .risk-table {
+            font-size: 0.9rem;
+        }
+        
+        .risk-table th {
+            background: #e8eff7;
+            text-align: center;
+        }
+        
+        .risk-table td {
+            vertical-align: top;
+        }
+        
+        .risk-high {
+            background: #ffebee;
+            color: #c62828;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .risk-medium {
+            background: #fff8e1;
+            color: #f57f17;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        .risk-low {
+            background: #e8f5e8;
+            color: #2e7d32;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .toc ul {
+                columns: 1;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .mermaid {
+                transform: scale(0.8);
+                transform-origin: top center;
+            }
+        }
+        
+        .system-context-diagram {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .spec-detail {
+            background: #f8fafd;
+            border: 1px solid #e1e5eb;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        pre {
+            background: #f8f9fa;
+            border: 1px solid #e1e5eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .api-success {
+            background: #e8f5e8;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .api-error {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        
+        .monitoring-table th {
+            background: #e8eff7;
+            text-align: center;
+        }
+        
+        .alert-critical {
+            background: #ffebee;
+            color: #c62828;
+            font-weight: bold;
+        }
+        
+        .alert-high {
+            background: #ffebee;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        
+        .alert-medium {
+            background: #fff8e1;
+            color: #f57f17;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bill Payment System</h1>
+            <p class="subtitle">Software Requirements Specification (SRS)</p>
+            </header>
+        
+        <div class="document-info">
+            <table>
+                <tr>
+                    <th>Document Version</th>
+                    <td>4.0</td>
+                </tr>
+                <tr>
+                    <th>Date Prepared</th>
+                    <td>September 25, 2025</td>
+                </tr>
+                <tr>
+                    <th>Prepared By</th>
+                    <td>Rakibul Hasan (011211068)</td>
+                </tr>
+                <tr>
+                    <th>Course</th>
+                    <td>CSE 3411 - System Analysis & Design</td>
+                </tr>
+                <tr>
+                    <th>Stakeholders</th>
+                    <td>
+                        <ul style="margin: 0; padding-left: 20px;">
+                            <li>End Users (Consumers)</li>
+                            <li>Business Users</li>
+                            <li>System Administrators</li>
+                            <li>Biller Organizations</li>
+                            <li>Financial Institutions</li>
+                            <li>Compliance Officers</li>
+                            <li>Security Teams</li>
+                        </ul>
+                    </td>
+                </tr>
+             </table>
+        </div>
+        
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#introduction">1. Introduction</a>
+                    <ul>
+                        <li><a href="#purpose">1.1 Purpose</a></li>
+                        <li><a href="#scope">1.2 Scope</a></li>
+                        <li><a href="#definitions">1.3 Definitions, Acronyms, and Abbreviations</a></li>
+                        <li><a href="#references">1.4 References</a></li>
+                        <li><a href="#overview">1.5 Overview</a></li>
+                    </ul>
+                </li>
+                <li><a href="#overall-description">2. Overall Description</a>
+                    <ul>
+                        <li><a href="#product-perspective">2.1 Product Perspective</a></li>
+                        <li><a href="#product-functions">2.2 Product Functions</a></li>
+                        <li><a href="#user-characteristics">2.3 User Characteristics</a></li>
+                        <li><a href="#constraints">2.4 Constraints</a></li>
+                        <li><a href="#assumptions">2.5 Assumptions and Dependencies</a></li>
+                        <li><a href="#risk-analysis">2.6 Risk Analysis</a></li>
+                        <li><a href="#enhanced-risk-monitoring">2.7 Enhanced Risk Monitoring</a></li>
+                    </ul>
+                </li>
+                <li><a href="#specific-requirements">3. Specific Requirements</a>
+                    <ul>
+                        <li><a href="#external-interfaces">3.1 External Interface Requirements</a></li>
+                        <li><a href="#functional-requirements">3.2 Functional Requirements</a></li>
+                        <li><a href="#non-functional-requirements">3.3 Non-Functional Requirements</a></li>
+                        <li><a href="#system-features">3.4 System Features</a></li>
+                    </ul>
+                </li>
+                <li><a href="#appendix">Appendix A: Data Models and Diagrams</a></li>
+                <li><a href="#api-schemas">Appendix B: API Schemas and Examples</a></li>
+                <li><a href="#data-flows">Appendix C: Data Flow Diagrams</a></li>
+                <li><a href="#monitoring-specs">Appendix D: Monitoring Specifications</a></li>
+                <li><a href="#glossary">Appendix E: Glossary</a></li>
+            </ul>
+        </div>
+        
+        <section id="introduction" class="content-section">
+            <h2>Introduction</h2>
+            
+            <h3 id="purpose">Purpose</h3>
+            <p>This Software Requirements Specification (SRS) document provides a complete description of all functions and specifications for the Bill Payment System. This document is intended for multiple audiences including:</p>
+            <ul>
+                <li><strong>Developers:</strong> To understand what to build with precise technical specifications</li>
+                <li><strong>Testers:</strong> To develop comprehensive test plans and validation criteria</li>
+                <li><strong>Project Managers:</strong> To plan and track project progress against measurable requirements</li>
+                <li><strong>Stakeholders:</strong> To understand system capabilities, constraints, and risk mitigation strategies</li>
+                <li><strong>Technical Writers:</strong> To create accurate user documentation and training materials</li>
+                <li><strong>Security Teams:</strong> To implement and verify security controls</li>
+                <li><strong>Operations Teams:</strong> To establish monitoring and maintenance procedures</li>
+            </ul>
+            
+            <h3 id="scope">Scope</h3>
+            <p>The Bill Payment System (BPS) is a web-based application that enables users to manage and pay various bills through a centralized platform. The system will provide comprehensive bill management, secure payment processing, automated notifications, and detailed reporting capabilities.</p>
+            
+            <div class="diagram-container">
+                <div class="diagram-title">System Context Diagram</div>
+                <div class="mermaid">
+flowchart TD
+    A[End User<br/>Web/Mobile Browser] --> B[Bill Payment System]
+    C[Biller Organization<br/>REST API] --> B
+    D[Payment Gateway<br/>PCI-Compliant API] --> B
+    E[Banking System<br/>Financial APIs] --> B
+    F[Email Service<br/>SMTP/API] --> B
+    G[SMS Gateway<br/>HTTP API] --> B
+    H[System Administrator<br/>Admin Interface] --> B
+    I[Security Team<br/>Monitoring Dashboard] --> B
+    J[Compliance Auditor<br/>Reporting Interface] --> B
+    
+    B --> A
+    B --> C
+    B --> D
+    B --> E
+    B --> F
+    B --> G
+    B --> H
+    B --> I
+    B --> J
+    
+    style A fill:#e1f5fe
+    style C fill:#f3e5f5
+    style D fill:#e8f5e8
+    style E fill:#fff3e0
+    style F fill:#fbe9e7
+    style G fill:#fce4ec
+    style H fill:#e8eaf6
+    style I fill:#ffebee
+    style J fill:#e8f5e8
+    style B fill:#1e3c72,color:#fff
+                </div>
+            </div>
+            
+            <p><strong>In Scope:</strong> User registration and authentication, bill management and categorization, payment processing with multiple methods, automated notifications, comprehensive reporting, administrative functions, biller integration APIs, security monitoring, compliance reporting.</p>
+            <p><strong>Out of Scope:</strong> Accounting systems integration (GL, AP modules), biller backend systems modification, mobile application development (initial release), international currency processing (Phase 1), voice-based interfaces, cryptocurrency payments.</p>
+            
+            <h3 id="definitions">Definitions, Acronyms, and Abbreviations</h3>
+            <table>
+                <tr>
+                    <th>Term/Acronym</th>
+                    <th>Definition</th>
+                </tr>
+                <tr>
+                    <td>SRS</td>
+                    <td>Software Requirements Specification</td>
+                </tr>
+                <tr>
+                    <td>BPS</td>
+                    <td>Bill Payment System</td>
+                </tr>
+                <tr>
+                    <td>UI/UX</td>
+                    <td>User Interface/User Experience</td>
+                </tr>
+                <tr>
+                    <td>API</td>
+                    <td>Application Programming Interface</td>
+                </tr>
+                <tr>
+                    <td>Biller</td>
+                    <td>Service provider issuing bills (e.g., utility companies, telecom providers)</td>
+                </tr>
+                <tr>
+                    <td>PCI DSS</td>
+                    <td>Payment Card Industry Data Security Standard v4.0</td>
+                </tr>
+                <tr>
+                    <td>MFA</td>
+                    <td>Multi-Factor Authentication</td>
+                </tr>
+                <tr>
+                    <td>AES-256</td>
+                    <td>Advanced Encryption Standard 256-bit</td>
+                </tr>
+                <tr>
+                    <td>TLS</td>
+                    <td>Transport Layer Security v1.3</td>
+                </tr>
+                <tr>
+                    <td>RTO</td>
+                    <td>Recovery Time Objective ≤ 4 hours</td>
+                </tr>
+                <tr>
+                    <td>RPO</td>
+                    <td>Recovery Point Objective ≤ 1 hour</td>
+                </tr>
+                <tr>
+                    <td>SLA</td>
+                    <td>Service Level Agreement - 99.5% uptime</td>
+                </tr>
+                <tr>
+                    <td>DFD</td>
+                    <td>Data Flow Diagram</td>
+                </tr>
+                <tr>
+                    <td>KPI</td>
+                    <td>Key Performance Indicator</td>
+                </tr>
+            </table>
+            
+            <h3 id="references">References</h3>
+            <ul>
+                <li>IEEE Std 830-1998 - IEEE Recommended Practice for Software Requirements Specifications</li>
+                <li>PCI DSS v4.0 - Payment Card Industry Data Security Standard Requirements</li>
+                <li>GDPR - General Data Protection Regulation Compliance Guidelines</li>
+                <li>WCAG 2.1 AA - Web Content Accessibility Guidelines</li>
+                <li>NIST SP 800-53 - Security and Privacy Controls for Information Systems</li>
+                <li>ISO/IEC 27001 - Information Security Management</li>
+                <li>JSON API Specification v1.1</li>
+                <li>OpenAPI Specification 3.1.0</li>
+                <li>Project Charter - Bill Payment System, Version 3.0</li>
+            </ul>
+            
+            <h3 id="overview">Overview</h3>
+            <p>This SRS is organized into comprehensive sections following IEEE 830 standards. Section 1 provides introduction and background. Section 2 describes the overall system perspective including comprehensive risk analysis and enhanced monitoring. Section 3 details specific requirements with enhanced precision and measurable criteria. Appendices provide supplementary information including detailed data models, API schemas, data flow diagrams, monitoring specifications, and complete glossary.</p>
+        </section>
+        
+        <section id="overall-description" class="content-section">
+            <h2>Overall Description</h2>
+            
+            <h3 id="product-perspective">Product Perspective</h3>
+            <p>The Bill Payment System is a standalone web application that integrates with external payment gateways, financial institutions, and notification services. The system follows a three-tier microservices architecture with clear separation between presentation, business logic, and data layers.</p>
+            
+            <div class="diagram-container">
+                <div class="diagram-title">System Architecture Overview</div>
+                <div class="mermaid">
+flowchart TB
+    subgraph PresentationLayer [Presentation Layer - AWS CloudFront]
+        A[Web Browser<br/>React SPA]
+        B[Mobile Browser<br/>Progressive Web App]
+        C[Load Balancer<br/>AWS ALB]
+    end
+    
+    subgraph BusinessLayer [Business Layer - AWS ECS/EKS]
+        D[API Gateway<br/>Request Routing]
+        E[User Service<br/>Authentication & Profile]
+        F[Bill Service<br/>Bill Management]
+        G[Payment Service<br/>Transaction Processing]
+        H[Notification Service<br/>Email & SMS]
+        I[Reporting Service<br/>Analytics & Reports]
+        J[Security Service<br/>Encryption & AuthZ]
+        K[Monitoring Service<br/>Metrics & Alerts]
+    end
+    
+    subgraph DataLayer [Data Layer - AWS RDS/ElastiCache]
+        L[Main Database<br/>Amazon Aurora PostgreSQL]
+        M[Cache Layer<br/>Amazon ElastiCache Redis]
+        N[File Storage<br/>Amazon S3 - Receipts]
+        O[Search Index<br/>Amazon OpenSearch]
+        P[Audit Logs<br/>Amazon CloudWatch Logs]
+    end
+    
+    subgraph ExternalSystems [External Systems]
+        Q[Payment Gateways<br/>Stripe/Braintree]
+        R[Banking APIs<br/>Plaid/Yodlee]
+        S[Email Service<br/>Amazon SES/SendGrid]
+        T[SMS Gateway<br/>Twilio/Amazon SNS]
+        U[Monitoring<br/>AWS CloudWatch/Datadog]
+        V[Security Tools<br/>WAF, GuardDuty, Security Hub]
+    end
+    
+    A --> C
+    B --> C
+    C --> D
+    D --> E
+    D --> F
+    D --> G
+    D --> H
+    D --> I
+    D --> J
+    D --> K
+    
+    E --> L
+    F --> L
+    G --> L
+    H --> L
+    I --> L
+    
+    E --> M
+    F --> M
+    G --> M
+    
+    G --> N
+    I --> O
+    J --> P
+    
+    G --> Q
+    G --> R
+    H --> S
+    H --> T
+    K --> U
+    J --> V
+    
+    style PresentationLayer fill:#e3f2fd
+    style BusinessLayer fill:#f3e5f5
+    style DataLayer fill:#e8f5e8
+    style ExternalSystems fill:#fff3e0
+                </div>
+            </div>
+            
+            <h3 id="product-functions">Product Functions</h3>
+            <p>The Bill Payment System shall provide the following core functions with detailed specifications:</p>
+            <ul>
+                <li><strong>User Management:</strong> Registration with email verification, secure authentication (MFA), profile management, and preference configuration</li>
+                <li><strong>Bill Management:</strong> Automated bill ingestion, manual bill entry, categorization, search with advanced filters, and due date tracking</li>
+                <li><strong>Payment Processing:</strong> Multiple payment methods, scheduled payments, recurring payments, bulk payments, and real-time transaction status</li>
+                <li><strong>Notification System:</strong> Multi-channel notifications (email, SMS, in-app), customizable reminders, and payment confirmations</li>
+                <li><strong>Reporting & Analytics:</strong> Transaction history, spending analysis, export capabilities (PDF, CSV, XLSX), and customizable dashboards</li>
+                <li><strong>Administration:</strong> User management, system monitoring, audit logs, and performance metrics</li>
+                <li><strong>Biller Management:</strong> Biller registration, bill submission APIs, and payment reconciliation</li>
+                <li><strong>Security & Compliance:</strong> Real-time monitoring, threat detection, compliance reporting, and audit trails</li>
+            </ul>
+            
+            <h3 id="user-characteristics">User Characteristics</h3>
+            <table class="use-case-table">
+                <tr>
+                    <th>User Type</th>
+                    <th>Characteristics</th>
+                    <th>Technical Proficiency</th>
+                    <th>Primary Goals</th>
+                    <th>Access Patterns</th>
+                </tr>
+                <tr>
+                    <td>End User</td>
+                    <td>Individuals paying personal bills, age 18-80, basic computer literacy, mobile device usage</td>
+                    <td>Intermediate</td>
+                    <td>Pay bills easily, track payments, avoid late fees, maintain financial records</td>
+                    <td>Daily/weekly access, primarily evenings and weekends, 5-15 minutes per session</td>
+                </tr>
+                <tr>
+                    <td>Business User</td>
+                    <td>Small business owners, office managers, accounting knowledge, multiple bill management</td>
+                    <td>Intermediate to Advanced</td>
+                    <td>Manage corporate bills, generate reports, maintain audit trails, multi-user access</td>
+                    <td>Daily access during business hours, 20-60 minutes per session, bulk operations</td>
+                </tr>
+                <tr>
+                    <td>Administrator</td>
+                    <td>IT professionals, system maintenance expertise, security awareness, troubleshooting skills</td>
+                    <td>Advanced</td>
+                    <td>System monitoring, user management, security compliance, performance optimization</td>
+                    <td>Continuous monitoring, scheduled maintenance, emergency response, audit reviews</td>
+                </tr>
+                <tr>
+                    <td>Biller Representative</td>
+                    <td>Service provider staff, basic technical knowledge, customer service orientation</td>
+                    <td>Intermediate</td>
+                    <td>Submit bills, track payments, manage customer accounts, resolve disputes</td>
+                    <td>Regular batch processing, monthly cycles, customer support interactions</td>
+                </tr>
+                <tr>
+                    <td>Security Analyst</td>
+                    <td>Security professionals, threat detection expertise, compliance knowledge</td>
+                    <td>Advanced</td>
+                    <td>Monitor security events, investigate incidents, ensure compliance, implement controls</td>
+                    <td>Real-time monitoring, incident response, periodic audits, threat hunting</td>
+                </tr>
+            </table>
+            
+            <h3 id="constraints">Constraints</h3>
+            <ul>
+                <li><strong>Regulatory Compliance:</strong> Must comply with PCI DSS v4.0 security standards for payment processing, including SAQ D validation</li>
+                <li><strong>Technical Compatibility:</strong> Must support major web browsers (Chrome 90+, Firefox 88+, Safari 14+, Edge 90+) with progressive enhancement</li>
+                <li><strong>Integration Requirements:</strong> Must integrate with existing banking APIs (Plaid/Yodlee) and payment gateways (Stripe/Braintree) using RESTful APIs</li>
+                <li><strong>Performance Standards:</strong> Must maintain 99.5% system availability during business hours (8 AM - 10 PM local time) with ≤ 4 hours monthly maintenance</li>
+                <li><strong>Security Protocols:</strong> Must implement AES-256 encryption for data at rest and TLS 1.3 for data in transit with perfect forward secrecy</li>
+                <li><strong>Accessibility Requirements:</strong> Must comply with WCAG 2.1 AA accessibility standards with screen reader compatibility and keyboard navigation</li>
+                <li><strong>Data Retention:</strong> Must maintain transaction records for 7 years minimum for audit and compliance purposes</li>
+                <li><strong>API Rate Limiting:</strong> Must implement rate limiting of 1000 requests/hour per user to prevent abuse</li>
+            </ul>
+            
+            <h3 id="assumptions">Assumptions and Dependencies</h3>
+            
+            <h4>Technical Assumptions:</h4>
+            <ul>
+                <li>Users have reliable broadband internet access (≥ 5 Mbps download, ≥ 1 Mbps upload) and modern web browsing capabilities</li>
+                <li>Payment gateway services maintain 99.9% availability with redundant failover systems and ≤ 30 minute RTO</li>
+                <li>Users possess valid payment methods (bank accounts, credit/debit cards) with sufficient funds/credit limits</li>
+                <li>Billers provide bill data in standardized electronic formats (JSON/XML) with consistent data schemas</li>
+                <li>Primary system usage occurs during extended business hours (6 AM - 11 PM local time) with predictable peak loads</li>
+                <li>Modern web browsers support required JavaScript features (ES2018+) and security protocols (TLS 1.3)</li>
+            </ul>
+            
+            <h4>Business Continuity Assumptions:</h4>
+            <ul>
+                <li>Critical infrastructure providers (AWS, payment gateways) maintain geographically distributed data centers</li>
+                <li>Database backup systems function correctly with verified restore capabilities within RTO/RPO targets</li>
+                <li>Security monitoring systems detect and alert on suspicious activities in real-time (≤ 5 minute detection)</li>
+                <li>Disaster recovery procedures are tested quarterly with documented runbooks and assigned responsibilities</li>
+                <li>Third-party services provide adequate notice (≥ 30 days) for API changes or service deprecation</li>
+            </ul>
+            
+            <h4>Dependencies:</h4>
+            <ul>
+                <li><strong>Payment Gateway APIs:</strong> Availability of PCI-compliant payment processing (Stripe, PayPal, Braintree) with documented APIs and sandbox environments</li>
+                <li><strong>Communication Services:</strong> Reliability of email (Amazon SES, SendGrid) and SMS (Twilio, Amazon SNS) services with delivery guarantees</li>
+                <li><strong>Database Systems:</strong> Stable relational database (PostgreSQL 13+) with replication, backup, and point-in-time recovery capabilities</li>
+                <li><strong>Infrastructure:</strong> Secure cloud hosting (AWS) with load balancing, auto-scaling, and DDoS protection</li>
+                <li><strong>Monitoring:</strong> Comprehensive observability stack (CloudWatch, Datadog) with metrics, logs, and alerting</li>
+                <li><strong>Development Tools:</strong> Continuous integration/deployment pipeline (GitHub Actions, Jenkins) with automated testing and deployment</li>
+            </ul>
+            
+            <h3 id="risk-analysis">Risk Analysis</h3>
+            
+            <div class="note">
+                <strong>Risk Assessment Methodology:</strong> Risks are categorized by probability (High ≥ 70%, Medium 30-69%, Low ≤ 29%) and impact (Critical, Major, Moderate, Minor). Mitigation strategies are prioritized based on risk severity.
+            </div>
+            
+            <table class="risk-table">
+                <tr>
+                    <th>Risk ID</th>
+                    <th>Description</th>
+                    <th>Probability</th>
+                    <th>Impact</th>
+                    <th>Severity</th>
+                    <th>Mitigation Strategy</th>
+                    <th>Contingency Plan</th>
+                </tr>
+                <tr>
+                    <td>RISK-001</td>
+                    <td>Payment Gateway Service Disruption</td>
+                    <td><span class="risk-medium">Medium</span></td>
+                    <td>Critical</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>Multi-gateway strategy with automatic failover; continuous health monitoring</td>
+                    <td>Manual payment processing with offline authorization; extended payment deadlines</td>
+                </tr>
+                <tr>
+                    <td>RISK-002</td>
+                    <td>Security Breach - Data Compromise</td>
+                    <td><span class="risk-low">Low</span></td>
+                    <td>Critical</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>Defense-in-depth security architecture; regular penetration testing; encryption everywhere</td>
+                    <td>Immediate incident response; customer notification; regulatory compliance reporting</td>
+                </tr>
+                <tr>
+                    <td>RISK-003</td>
+                    <td>Performance Degradation Under Load</td>
+                    <td><span class="risk-medium">Medium</span></td>
+                    <td>Major</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>Horizontal scaling architecture; load testing; performance monitoring with auto-scaling</td>
+                    <td>Graceful degradation; queue-based processing; user communication about delays</td>
+                </tr>
+                <tr>
+                    <td>RISK-004</td>
+                    <td>Third-party API Changes</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>Major</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>API abstraction layers; contract testing; monitoring for deprecated features</td>
+                    <td>Rapid development cycles; feature flags; maintained compatibility layers</td>
+                </tr>
+                <tr>
+                    <td>RISK-005</td>
+                    <td>Data Loss or Corruption</td>
+                    <td><span class="risk-low">Low</span></td>
+                    <td>Critical</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>Automated backups with verification; geo-redundant storage; transaction integrity</td>
+                    <td>Point-in-time recovery procedures; data validation scripts; manual reconciliation</td>
+                </tr>
+                <tr>
+                    <td>RISK-006</td>
+                    <td>Regulatory Compliance Failure</td>
+                    <td><span class="risk-medium">Medium</span></td>
+                    <td>Critical</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>Regular compliance audits; automated compliance monitoring; legal review processes</td>
+                    <td>Remediation plans; regulatory reporting; temporary service suspension if required</td>
+                </tr>
+                <tr>
+                    <td>RISK-007</td>
+                    <td>User Adoption Resistance</td>
+                    <td><span class="risk-medium">Medium</span></td>
+                    <td>Major</td>
+                    <td><span class="risk-medium">Medium</span></td>
+                    <td>User-centered design; comprehensive onboarding; progressive feature rollout</td>
+                    <td>Enhanced support resources; incentive programs; feedback incorporation cycles</td>
+                </tr>
+                <tr>
+                    <td>RISK-008</td>
+                    <td>Integration Complexity with Legacy Systems</td>
+                    <td><span class="risk-high">High</span></td>
+                    <td>Moderate</td>
+                    <td><span class="risk-medium">Medium</span></td>
+                    <td>Phased integration approach; API gateways; adapter patterns; extensive testing</td>
+                    <td>Alternative integration methods; manual processes; extended timelines</td>
+                </tr>
+            </table>
+            
+            <h4>Risk Monitoring and Review:</h4>
+            <ul>
+                <li><strong>Continuous Monitoring:</strong> Automated risk detection through system metrics, security events, and performance indicators</li>
+                <li><strong>Quarterly Reviews:</strong> Formal risk assessment updates with stakeholder involvement and mitigation effectiveness evaluation</li>
+                <li><strong>Trigger-based Reassessment:</strong> Immediate risk review following security incidents, regulatory changes, or major system modifications</li>
+                <li><strong>Risk Register Maintenance:</strong> Centralized risk documentation with ownership assignment and action tracking</li>
+            </ul>
+
+            <h3 id="enhanced-risk-monitoring">Enhanced Risk Monitoring & Alerting</h3>
+            
+            <h4>Automated Risk Detection Rules</h4>
+            <table class="risk-table">
+                <tr>
+                    <th>Risk Scenario</th>
+                    <th>Detection Rule</th>
+                    <th>Alert Level</th>
+                    <th>Auto-Mitigation</th>
+                </tr>
+                <tr>
+                    <td>DDoS Attack</td>
+                    <td>> 10,000 requests/second from single IP range</td>
+                    <td><span class="risk-high">CRITICAL</span></td>
+                    <td>Auto-block IP range, enable WAF rules, scale infrastructure</td>
+                </tr>
+                <tr>
+                    <td>Payment Fraud Pattern</td>
+                    <td>> 5 failed payments from same user in 10 minutes</td>
+                    <td><span class="risk-high">HIGH</span></td>
+                    <td>Temporary account suspension, require MFA, flag for review</td>
+                </tr>
+                <tr>
+                    <td>Data Breach Attempt</td>
+                    <td>SQL injection patterns in request logs</td>
+                    <td><span class="risk-high">CRITICAL</span></td>
+                    <td>Block request, security team notification, enhance WAF rules</td>
+                </tr>
+                <tr>
+                    <td>System Performance Degradation</td>
+                    <td>CPU > 90% for 5 minutes consecutive</td>
+                    <td><span class="risk-medium">MEDIUM</span></td>
+                    <td>Auto-scale instances, traffic shedding, performance optimization</td>
+                </tr>
+                <tr>
+                    <td>Unusual Payment Activity</td>
+                    <td>Payment volume 200% above daily average</td>
+                    <td><span class="risk-medium">MEDIUM</span></td>
+                    <td>Enhanced fraud screening, manual review threshold adjustment</td>
+                </tr>
+                <tr>
+                    <td>Database Connection Issues</td>
+                    <td>> 50% connection failures in 5-minute window</td>
+                    <td><span class="risk-high">HIGH</span></td>
+                    <td>Failover to replica, connection pool reset, DBA notification</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section id="specific-requirements" class="content-section">
+            <h2>Specific Requirements</h2>
+            
+            <h3 id="external-interfaces">External Interface Requirements</h3>
+            
+            <h4>User Interfaces</h4>
+            <p>The system shall provide responsive web interfaces compatible with major browsers with the following detailed specifications:</p>
+            
+            <div class="spec-detail">
+                <strong>Browser Support Matrix:</strong> Chrome (90+), Firefox (88+), Safari (14+), Edge (90+) with progressive enhancement for older versions
+            </div>
+            
+            <div class="spec-detail">
+                <strong>Screen Resolution Support:</strong> Responsive design supporting 320px (mobile) to 3840px (4K displays) with fluid layouts
+            </div>
+            
+            <div class="spec-detail">
+                <strong>Accessibility Standards:</strong> WCAG 2.1 AA compliance including keyboard navigation, screen reader support (JAWS, NVDA), and color contrast ratios ≥ 4.5:1
+            </div>
+            
+            <div class="diagram-container">
+                <div class="diagram-title">User Interface Flow - Detailed Navigation</div>
+                <div class="mermaid">
+flowchart TD
+    A[Public Landing Page<br/>Anonymous Access] --> B[User Authentication<br/>Login/Registration]
+    B --> C{Authentication Result}
+    C -->|Success| D[Main Dashboard<br/>Bill Overview & Alerts]
+    C -->|Failure| B
+    
+    D --> E[Bill Management<br/>List, Search, Filter]
+    D --> F[Payment Center<br/>Payment Methods & History]
+    D --> G[User Profile<br/>Settings & Preferences]
+    
+    E --> H[Bill Details View<br/>Full Bill Information]
+    H --> I[Payment Initiation<br/>Amount & Method Selection]
+    
+    F --> J[Payment Method Management<br/>Add/Edit/Remove]
+    F --> K[Transaction History<br/>Filter & Export]
+    
+    G --> L[Notification Preferences<br/>Email/SMS Settings]
+    G --> M[Security Settings<br/>MFA & Password]
+    
+    I --> N[Payment Processing<br/>Gateway Integration]
+    N --> O{Payment Result}
+    O -->|Success| P[Payment Confirmation<br/>Receipt & History Update]
+    O -->|Failure| Q[Payment Error<br/>Retry Options]
+    
+    P --> D
+    Q --> I
+    
+    style A fill:#e3f2fd
+    style B fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#f3e5f5
+    style F fill:#e8f5e8
+    style G fill:#fff3e0
+    style H fill:#fce4ec
+    style I fill:#e8f5e8
+    style N fill:#fff3e0
+    style P fill:#e8f5e8
+    style Q fill:#ffebee
+                </div>
+            </div>
+            
+            <h4>Hardware Interfaces - Detailed Specifications</h4>
+            <table class="interface-table">
+                <tr>
+                    <th>Component</th>
+                    <th>Technical Specifications</th>
+                    <th>Performance Requirements</th>
+                    <th>Redundancy</th>
+                </tr>
+                <tr>
+                    <td>Web Servers</td>
+                    <td>AWS EC2 c5.large (2 vCPU, 4GB RAM) or equivalent<br>OS: Amazon Linux 2023<br>Web Server: Nginx 1.20+</td>
+                    <td>Handle 500 concurrent connections<br>Response time ≤ 100ms for static content</td>
+                    <td>Multi-AZ deployment<br>Auto-scaling group (2-10 instances)<br>Load balancer health checks</td>
+                </tr>
+                <tr>
+                    <td>Application Servers</td>
+                    <td>AWS ECS Fargate (4 vCPU, 8GB RAM)<br>Runtime: Node.js 18+ or Java 17<br>Framework: Spring Boot 3.x</td>
+                    <td>Process 100 transactions/minute<br>API response time ≤ 2 seconds</td>
+                    <td>Multi-region deployment capability<br>Container orchestration<br>Circuit breaker pattern</td>
+                </tr>
+                <tr>
+                    <td>Database Servers</td>
+                    <td>Amazon Aurora PostgreSQL (db.r5.large)<br>Storage: 500GB SSD with IOPS provisioned<br>Backup: Automated with point-in-time recovery</td>
+                    <td>Support 10,000 active users<br>Query performance ≤ 50ms for indexed queries</td>
+                    <td>Multi-AZ replication<br>Read replicas (2+ instances)<br>Automated failover ≤ 30 seconds</td>
+                </tr>
+                <tr>
+                    <td>Cache Layer</td>
+                    <td>Amazon ElastiCache Redis (cache.r5.large)<br>Memory: 13.5GB RAM<br>Persistence: AOF with everysec</td>
+                    <td>Cache hit ratio ≥ 90%<br>Response time ≤ 5ms</td>
+                    <td>Multi-AZ with automatic failover<br>Cluster mode enabled<br>Backup retention (7 days)</td>
+                </tr>
+            </table>
+            
+            <h4>Software Interfaces - Detailed Specifications</h4>
+            <table class="interface-table">
+                <tr>
+                    <th>Interface</th>
+                    <th>Technical Specifications</th>
+                    <th>Protocol/Data Format</th>
+                    <th>Security Requirements</th>
+                </tr>
+                <tr>
+                    <td>Payment Gateway API</td>
+                    <td>Stripe API v2023-08-16 or equivalent<br>Idempotency key support<br>Webhook endpoints for async notifications</td>
+                    <td>REST API, JSON<br>HTTPS with TLS 1.3<br>Idempotent operations</td>
+                    <td>PCI DSS Level 1 compliance<br>API key rotation (90 days)<br>Request signing with HMAC</td>
+                </tr>
+                <tr>
+                    <td>Email Service</td>
+                    <td>Amazon SES v2 API<br>Template support for transactional emails<br>Delivery tracking and bounce handling</td>
+                    <td>SMTP/API (HTTPS)<br>JSON request/response<br>Template variables</td>
+                    <td>SPF/DKIM/DMARC configured<br>Encrypted storage of templates<br>Compliance with CAN-SPAM</td>
+                </tr>
+                <tr>
+                    <td>SMS Gateway</td>
+                    <td>Twilio API 2010-04-01<br>Long code and toll-free numbers<br>Delivery status callbacks</td>
+                    <td>HTTP API, JSON/XML<br>UTF-8 character encoding<br>Status callback URLs</td>
+                    <td>API key encryption at rest<br>Rate limiting per number<br>Compliance with TCPA regulations</td>
+                </tr>
+                <tr>
+                    <td>Banking APIs</td>
+                    <td>Plaid API v2023-03-08<br>Account authentication and balance checks<br>Transaction history retrieval</td>
+                    <td>REST API, JSON<br>Webhooks for updates<br>OAuth 2.0 flows</td>
+                    <td>Financial-grade API security<br>Token-based authentication<br>SOC 2 Type II compliance</td>
+                </tr>
+            </table>
+            
+            <h4>Communications Interfaces - Technical Specifications</h4>
+            <ul>
+                <li><strong>HTTPS/TLS 1.3:</strong> All web communications with forward secrecy, HSTS headers, and modern cipher suites (AES-256-GCM, CHACHA20-POLY1305)</li>
+                <li><strong>RESTful APIs:</strong> JSON API specification with consistent error formats, versioning (URL path), and hypermedia controls (HATEOAS)</li>
+                <li><strong>OAuth 2.0 + OpenID Connect:</strong> Authorization code flow with PKCE for web apps, client credentials for service-to-service</li>
+                <li><strong>WebSocket:</strong> For real-time notifications with authentication and rate limiting (max 10 connections per user)</li>
+                <li><strong>Message Queues:</strong> Amazon SQS for asynchronous processing with visibility timeouts and dead-letter queues</li>
+            </ul>
+            
+            <h3 id="functional-requirements">Functional Requirements</h3>
+            
+            <h4>User Management Module</h4>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-001</span>
+                <strong>User Registration:</strong> The system shall allow new users to create an account by providing personal information including name, email, phone number, and address with real-time validation.
+                <div class="spec-detail">Validation: Email format (RFC 5322), phone number (E.164 format), address verification via third-party service</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-002</span>
+                <strong>Email Verification:</strong> The system shall send a verification email with a time-limited (24-hour) unique token to complete the registration process.
+                <div class="spec-detail">Token: JWT with 256-bit secret, single-use, contains user ID and timestamp</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-003</span>
+                <strong>User Login:</strong> The system shall authenticate users using username/email and password with secure hashing (bcrypt, cost factor 12).
+                <div class="spec-detail">Security: Rate limiting (5 attempts per 15 minutes), account lockout after 10 failed attempts, secure session management</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-004</span>
+                <strong>Password Recovery:</strong> The system shall provide a secure password reset mechanism via email with time-limited tokens (1-hour expiry).
+                <div class="spec-detail">Process: Token invalidation after use, password history check (prevent last 5 passwords), complexity enforcement</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-005</span>
+                <strong>Multi-Factor Authentication:</strong> The system shall support MFA using TOTP (RFC 6238) with 30-second intervals or SMS-based codes.
+                <div class="spec-detail">Implementation: Backup codes generation, device remembering (30 days), mandatory for administrative users</div>
+            </div>
+            
+            <h4>Bill Management Module</h4>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-010</span>
+                <strong>Bill Viewing:</strong> The system shall display all pending bills for the logged-in user in a consolidated dashboard with sorting and categorization.
+                <div class="spec-detail">Display: Group by due date (overdue, due soon, future), amount, biller category with visual indicators</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-011</span>
+                <strong>Bill Search:</strong> The system shall allow users to search bills by biller name, date range (±2 years), amount range (±$10,000), or status with full-text indexing.
+                <div class="spec-detail">Performance: Search results returned within 2 seconds for datasets up to 10,000 bills per user</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-012</span>
+                <strong>Bill Details:</strong> The system shall display detailed information for each bill including due date, amount, biller information, payment history, and line-item details.
+                <div class="spec-detail">Data: Support for bill images (PDF/JPEG), itemized charges, tax calculations, and usage metrics</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-013</span>
+                <strong>Bill Categorization:</strong> The system shall automatically categorize bills by type (utilities, subscriptions, loans, etc.) using machine learning classification.
+                <div class="spec-detail">Accuracy: ≥ 95% categorization accuracy with user override capability and feedback loop</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-014</span>
+                <strong>Manual Bill Entry:</strong> The system shall allow users to manually enter bill information for billers not integrated with the system with OCR support for bill images.
+                <div class="spec-detail">OCR: Support for common bill formats, data extraction for amount, due date, biller with ≥ 90% accuracy</div>
+            </div>
+            
+            <h4>Payment Processing Module</h4>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-020</span>
+                <strong>Payment Initiation:</strong> The system shall allow users to initiate payments for single or multiple selected bills with batch processing capabilities.
+                <div class="spec-detail">Batch: Support up to 50 bills per batch transaction with individual payment status tracking</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-021</span>
+                <strong>Payment Method Selection:</strong> The system shall allow users to select from available payment methods (credit card, debit card, bank transfer, e-wallet) with security indicators.
+                <div class="spec-detail">Security: PCI-compliant tokenization, never store full card numbers, display only last 4 digits</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-022</span>
+                <strong>Payment Authorization:</strong> The system shall securely process payment authorization through integrated payment gateways with AES-256 encryption and TLS 1.3.
+                <div class="spec-detail">Encryption: End-to-end encryption from client to payment gateway, PCI DSS v4.0 compliance, quarterly security audits</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-023</span>
+                <strong>Payment Confirmation:</strong> The system shall provide immediate confirmation of successful payments with transaction details and unique reference numbers.
+                <div class="spec-detail">Reference: 16-character alphanumeric transaction ID, gateway reference, timestamp with timezone</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">FR-024</span>
+                <strong>Receipt Generation:</strong> The system shall generate and store digital receipts for all completed transactions in PDF/A format with digital signature.
+                <div class="spec-detail">Storage: 7-year retention, tamper-evident format, automated backup to secure cloud storage</div>
+            </div>
+            
+            <h3 id="non-functional-requirements">Non-Functional Requirements</h3>
+            
+            <h4>Performance Requirements - Enhanced Specifications</h4>
+            <div class="requirement-item">
+                <span class="requirement-id">NFR-001</span>
+                <strong>Response Time:</strong> The system shall respond to user interactions within 2 seconds under normal load conditions (up to 1,000 concurrent users) and within 5 seconds under peak load (10,000 concurrent users).
+                <div class="spec-detail">Edge Cases: Database query performance ≤ 100ms for indexed searches, API gateway latency ≤ 50ms, cache hit ratio ≥ 95%</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">NFR-002</span>
+                <strong>Concurrent Users:</strong> The system shall support up to 10,000 concurrent users during peak hours with graceful degradation beyond this limit.
+                <div class="spec-detail">Scalability: Horizontal scaling triggers at 70% CPU utilization, auto-scaling response within 5 minutes, load distribution across 3+ availability zones</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">NFR-003</span>
+                <strong>Transaction Processing:</strong> Payment transactions shall be processed within 30 seconds including gateway communication, with 99th percentile completion within 60 seconds.
+                <div class="spec-detail">Reliability: 99.9% payment success rate, automatic retry for transient failures (3 attempts with exponential backoff), idempotent operation handling</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">NFR-004</span>
+                <strong>Data Retrieval:</strong> Bill listings and transaction history shall load within 3 seconds for users with up to 500 records, with pagination for larger datasets.
+                <div class="spec-detail">Optimization: Database indexing on frequently queried fields, query result caching (5-minute TTL), connection pooling with max 100 connections</div>
+            </div>
+            
+            <h4>Security Requirements - Enhanced Specifications</h4>
+            <div class="requirement-item">
+                <span class="requirement-id">NFR-010</span>
+                <strong>Data Encryption:</strong> All sensitive data shall be encrypted using AES-256-GCM in transit (TLS 1.3) and at rest with AWS KMS managed keys and regular key rotation.
+                <div class="spec-detail">Key Management: Annual key rotation, automated key versioning, hardware security modules (HSM) for master keys, audit trail for key usage</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">NFR-011</span>
+                <strong>Authentication:</strong> The system shall implement multi-factor authentication (MFA) for all user accounts using TOTP (RFC 6238) or FIDO2 WebAuthn.
+                <div class="spec-detail">MFA: Mandatory for administrative access, optional for end users with progressive enforcement, backup code generation with secure storage</div>
+            </div>
+            <div class="requirement-item">
+                <span class="requirement-id">NFR-012</span>
+                <strong>PCI Compliance:</strong> The system shall comply with PCI DSS v4.0 standards including SAQ D validation, quarterly vulnerability scans, and annual penetration testing.
+                <div class="spec-detail">Compliance: Network segmentation, intrusion detection systems, file integrity monitoring, secure coding practices, third-party security assessments</div>
+            </div>
+            
+            <h3 id="system-features">System Features</h3>
+            
+            <h4>Use Case: Process Bill Payment - Enhanced</h4>
+            <table class="use-case-table">
+                <tr>
+                    <th>Use Case ID</th>
+                    <td>UC-001</td>
+                </tr>
+                <tr>
+                    <th>Use Case Name</th>
+                    <td>Process Bill Payment</td>
+                </tr>
+                <tr>
+                    <th>Actors</th>
+                    <td>End User, Payment Gateway, Notification System, Audit System</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>User selects a bill and completes the payment process using a saved payment method with full security and compliance controls</td>
+                </tr>
+                <tr>
+                    <th>Preconditions</th>
+                    <td>
+                        <ul>
+                            <li>User is registered, verified, and logged in with valid session</li>
+                            <li>User has at least one pending bill with valid due date</li>
+                            <li>User has at least one valid payment method saved and verified</li>
+                            <li>Payment gateway services are operational and responsive</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Basic Flow</th>
+                    <td>
+                        1. User navigates to bill list (FR-010)<br>
+                        2. System displays pending bills with due date highlighting (NFR-004)<br>
+                        3. User selects a bill to pay<br>
+                        4. System shows bill details and payment options with security indicators (FR-012)<br>
+                        5. User selects payment method and confirms payment (FR-021)<br>
+                        6. System validates payment method and user balance (FR-022)<br>
+                        7. System processes payment through payment gateway with encryption (NFR-010)<br>
+                        8. System updates bill status to paid and creates audit trail (FR-023)<br>
+                        9. System generates receipt with digital signature (FR-024)<br>
+                        10. System sends payment confirmation via preferred channels (FR-031)<br>
+                        11. System displays success message with transaction reference (FR-023)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Alternative Flows</th>
+                    <td>
+                        <strong>3a. Pay multiple bills:</strong> User selects multiple bills for batch payment with total amount confirmation<br>
+                        <strong>6a. Payment failure:</strong> System displays specific error code, suggests alternative payment methods, logs failure reason<br>
+                        <strong>6b. Insufficient funds:</strong> System suggests partial payment or alternative payment methods with clear messaging<br>
+                        <strong>7a. Gateway timeout:</strong> System implements retry logic (3 attempts), shows pending status, notifies user of delay
+                    </td>
+                </tr>
+                <tr>
+                    <th>Postconditions</th>
+                    <td>
+                        <ul>
+                            <li>Bill status is updated to paid with timestamp</li>
+                            <li>Transaction record is created with unique reference</li>
+                            <li>Receipt is generated, stored, and available for download</li>
+                            <li>Notifications are sent to user and biller (if integrated)</li>
+                            <li>Audit log entry created for compliance purposes</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Business Rules</th>
+                    <td>
+                        <ul>
+                            <li>Payment amount must match bill amount exactly (±$0.01 tolerance)</li>
+                            <li>Payment can only be processed before due date or within 30-day grace period</li>
+                            <li>User must have sufficient funds/credit with real-time validation</li>
+                            <li>Daily payment limits apply based on user verification level ($2,500 standard, $10,000 enhanced)</li>
+                            <li>Currency must match bill currency (USD for US bills)</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            
+            <h4>Traceability Matrix - Enhanced</h4>
+            <div class="note">
+                <strong>Traceability Coverage:</strong> All requirements are mapped to design components, test cases, and implementation priorities with verification methods.
+            </div>
+            
+            <table class="traceability-matrix">
+                <tr>
+                    <th>Requirement ID</th>
+                    <th>Use Case</th>
+                    <th>Design Component</th>
+                    <th>Test Case</th>
+                    <th>Priority</th>
+                    <th>Verification Method</th>
+                </tr>
+                <tr>
+                    <td>FR-001</td>
+                    <td>UC-001, UC-002</td>
+                    <td>UserRegistrationService<br>EmailVerificationService</td>
+                    <td>TC-USER-001 to TC-USER-008</td>
+                    <td>High</td>
+                    <td>Unit Test, Integration Test, UAT</td>
+                </tr>
+                <tr>
+                    <td>FR-022</td>
+                    <td>UC-001</td>
+                    <td>PaymentProcessingService<br>EncryptionService</td>
+                    <td>TC-PAY-005 to TC-PAY-012</td>
+                    <td>High</td>
+                    <td>Security Test, Penetration Test, PCI Audit</td>
+                </tr>
+                <tr>
+                    <td>NFR-001</td>
+                    <td>All</td>
+                    <td>PerformanceMonitor<br>AutoScalingService</td>
+                    <td>TC-PERF-001 to TC-PERF-015</td>
+                    <td>High</td>
+                    <td>Load Testing, Stress Testing, Monitoring</td>
+                </tr>
+                <tr>
+                    <td>NFR-010</td>
+                    <td>All</td>
+                    <td>SecurityModule<br>KeyManagementService</td>
+                    <td>TC-SEC-001 to TC-SEC-020</td>
+                    <td>High</td>
+                    <td>Security Review, Code Analysis, Compliance Audit</td>
+                </tr>
+                <tr>
+                    <td>FR-030</td>
+                    <td>UC-002, UC-003</td>
+                    <td>NotificationService<br>PreferenceManager</td>
+                    <td>TC-NOT-001 to TC-NOT-008</td>
+                    <td>Medium</td>
+                    <td>Integration Test, UAT, Delivery Verification</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section id="appendix" class="content-section">
+            <h2>Appendix A: Data Models and Diagrams</h2>
+            
+            <h3>Entity-Relationship Diagram - Enhanced</h3>
+            <div class="diagram-container">
+                <div class="diagram-title">Complete ER Diagram with Security Attributes</div>
+                <div class="mermaid">
+erDiagram
+    USER {
+        int user_id PK "Primary Key, Auto-increment"
+        string username UK "Unique, 3-50 chars, alphanumeric"
+        string password_hash "bcrypt, 60 chars"
+        string email UK "Unique, validated format"
+        string first_name "1-100 chars"
+        string last_name "1-100 chars"
+        string phone_number "E.164 format"
+        datetime created_date "UTC timestamp"
+        datetime last_login "UTC timestamp"
+        boolean is_active "Default true"
+        boolean is_verified "Email verification status"
+        string mfa_secret "TOTP secret, encrypted"
+        datetime password_changed "For expiration policy"
+    }
+    
+    BILLER {
+        int biller_id PK
+        string biller_name "1-200 chars"
+        string biller_category "ENUM: UTILITY, TELECOM, RENT, etc."
+        string account_number_pattern "Regex validation"
+        string contact_email "Validated format"
+        string contact_phone "E.164 format"
+        string address "JSON structure"
+        boolean is_active "Default true"
+        datetime created_date "UTC timestamp"
+        string api_endpoint "For integrated billers"
+        string public_key "For secure communication"
+    }
+    
+    BILL {
+        int bill_id PK
+        int biller_id FK
+        int user_id FK
+        string account_number "Biller account reference"
+        decimal bill_amount "10,2 precision, > 0"
+        date due_date "Must be future date"
+        date issue_date "Bill generation date"
+        string status "ENUM: PENDING, PAID, OVERDUE, CANCELLED"
+        json bill_details "Line items, taxes, fees"
+        boolean is_recurring "For automatic detection"
+        string bill_image_url "S3 path, encrypted"
+        datetime created_date "UTC timestamp"
+        datetime paid_date "UTC timestamp, nullable"
+    }
+    
+    PAYMENT_METHOD {
+        int payment_method_id PK
+        int user_id FK
+        string method_type "ENUM: CREDIT_CARD, DEBIT_CARD, BANK_ACCOUNT, E_WALLET"
+        string tokenized_details "Encrypted, PCI compliant"
+        boolean is_default "One default per user"
+        datetime added_date "UTC timestamp"
+        datetime verified_date "UTC timestamp, nullable"
+        boolean is_active "For soft deletion"
+        string last_four "Display only"
+        string expiry_date "MM/YY for cards"
+    }
+    
+    TRANSACTION {
+        int transaction_id PK
+        int user_id FK
+        int bill_id FK
+        int payment_method_id FK
+        datetime transaction_date "UTC timestamp"
+        decimal payment_amount "10,2 precision"
+        string status "ENUM: PENDING, COMPLETED, FAILED, REFUNDED"
+        string gateway_reference "Payment processor ID"
+        string receipt_number "16-char alphanumeric"
+        string failure_reason "Detailed error message"
+        string ip_address "User IP for fraud detection"
+        string user_agent "Browser fingerprinting"
+        json audit_trail "Complete transaction log"
+    }
+    
+    NOTIFICATION {
+        int notification_id PK
+        int user_id FK
+        string notification_type "ENUM: REMINDER, CONFIRMATION, SECURITY"
+        string message "Template-based content"
+        datetime sent_date "UTC timestamp"
+        string status "ENUM: SENT, DELIVERED, FAILED"
+        string channel "ENUM: EMAIL, SMS, PUSH"
+        string external_id "Provider message ID"
+        datetime read_date "UTC timestamp, nullable"
+    }
+    
+    AUDIT_LOG {
+        int audit_id PK
+        string entity_type "Table name"
+        int entity_id "Record ID"
+        string action "ENUM: CREATE, UPDATE, DELETE"
+        json old_values "Previous state"
+        json new_values "Current state"
+        int user_id FK "Who performed action"
+        datetime timestamp "UTC timestamp"
+        string ip_address "Source IP"
+        string user_agent "Client identifier"
+    }
+    
+    USER ||--o{ BILL : "has"
+    BILLER ||--o{ BILL : "issues"
+    USER ||--o{ PAYMENT_METHOD : "owns"
+    USER ||--o{ TRANSACTION : "makes"
+    BILL ||--|| TRANSACTION : "paid_by"
+    PAYMENT_METHOD ||--o{ TRANSACTION : "used_in"
+    USER ||--o{ NOTIFICATION : "receives"
+    USER ||--o{ AUDIT_LOG : "generates"
+                </div>
+            </div>
+            
+            <h3>System Sequence Diagram - Enhanced</h3>
+            <div class="diagram-container">
+                <div class="diagram-title">Payment Processing Sequence with Security Controls</div>
+                <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant UI as Web Interface
+    participant AS as Auth Service
+    participant BS as Bill Service
+    participant PS as Payment Service
+    participant PG as Payment Gateway
+    participant NS as Notification Service
+    participant DB as Database
+    participant AL as Audit Logger
+    
+    Note over U,AL: Pre-Authentication Phase
+    U->>UI: Access bill list
+    UI->>AS: Validate session token
+    AS-->>UI: Session valid (JWT)
+    UI->>BS: Request bill list (user_id)
+    BS->>DB: Query bills with filters
+    DB-->>BS: Return bill data
+    BS-->>UI: Display bills with due dates
+    
+    Note over U,AL: Payment Initiation Phase
+    U->>UI: Select bill and initiate payment
+    UI->>AS: Verify MFA status if required
+    AS-->>UI: MFA verified
+    UI->>BS: Get bill details (bill_id)
+    BS->>DB: Retrieve bill with validation
+    DB-->>BS: Return bill information
+    BS-->>UI: Display bill and payment options
+    
+    Note over U,AL: Payment Authorization Phase
+    U->>UI: Select payment method & confirm
+    UI->>PS: Process payment (encrypted request)
+    PS->>AL: Log payment attempt (user, bill, method)
+    PS->>DB: Validate payment method token
+    DB-->>PS: Return tokenized payment details
+    PS->>PG: Authorize payment (AES-256 + TLS 1.3)
+    
+    alt Payment Authorized
+        PG-->>PS: Authorization success + reference
+        PS->>DB: Update bill status to PAID
+        PS->>DB: Create transaction record
+        PS->>NS: Trigger payment confirmation
+        NS->>U: Send email/SMS notification
+        PS->>AL: Log successful transaction
+        PS-->>UI: Payment success with receipt
+        UI-->>U: Display confirmation + receipt ID
+    else Payment Declined
+        PG-->>PS: Authorization failed + reason
+        PS->>AL: Log failure with error code
+        PS-->>UI: Payment failure
+        UI-->>U: Display error + suggestions
+    end
+    
+    Note over U,AL: Post-Processing Phase
+    UI->>BS: Refresh bill list
+    BS->>DB: Get updated bill status
+    DB-->>BS: Return current state
+    BS-->>UI: Update dashboard display
+                </div>
+            </div>
+        </section>
+
+        <section id="api-schemas" class="content-section">
+            <h2>Appendix B: API Schemas and Examples</h2>
+            
+            <h3>Payment Processing API Schema</h3>
+            <div class="diagram-container">
+                <div class="diagram-title">Payment Request Schema</div>
+                <pre>
+{
+  "payment_request": {
+    "type": "object",
+    "required": ["bill_id", "payment_method_id", "amount", "currency"],
+    "properties": {
+      "bill_id": {
+        "type": "string",
+        "format": "uuid",
+        "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "description": "Unique identifier for the bill to be paid"
+      },
+      "payment_method_id": {
+        "type": "string",
+        "format": "uuid", 
+        "example": "pm_1A2b3C4d5E6f7G8h9I0jK1lM",
+        "description": "Tokenized payment method identifier"
+      },
+      "amount": {
+        "type": "number",
+        "minimum": 0.01,
+        "maximum": 10000.00,
+        "multipleOf": 0.01,
+        "example": 125.75,
+        "description": "Payment amount in specified currency"
+      },
+      "currency": {
+        "type": "string",
+        "enum": ["USD", "CAD", "EUR"],
+        "default": "USD",
+        "example": "USD",
+        "description": "ISO 4217 currency code"
+      },
+      "idempotency_key": {
+        "type": "string",
+        "format": "uuid",
+        "example": "idemp_7H8i9J0k1L2m3N4o5P6q7R8s",
+        "description": "Prevents duplicate payments when retrying requests"
+      }
+    }
+  }
+}
+                </pre>
+            </div>
+
+            <h3>API Response Examples</h3>
+            <div class="spec-detail api-success">
+                <strong>Success Response (200 OK):</strong>
+                <pre>
+{
+  "status": "success",
+  "data": {
+    "transaction_id": "txn_7H8i9J0k1L2m3N4o5P6q7R8s",
+    "gateway_reference": "ch_1A2b3C4d5E6f7G8h9I0jK1lM",
+    "receipt_number": "RCPT-2025-001-ABCDEF",
+    "amount": 125.75,
+    "currency": "USD",
+    "status": "completed",
+    "timestamp": "2025-10-05T14:30:00Z",
+    "bill_details": {
+      "biller_name": "City Utilities",
+      "account_number": "***1234",
+      "due_date": "2025-10-15"
+    }
+  },
+  "links": {
+    "receipt": "/api/v1/receipts/RCPT-2025-001-ABCDEF",
+    "transaction": "/api/v1/transactions/txn_7H8i9J0k1L2m3N4o5P6q7R8s"
+  }
+}</pre>
+            </div>
+
+            <div class="spec-detail api-error">
+                <strong>Error Response (402 Payment Required):</strong>
+                <pre>
+{
+  "status": "error",
+  "error": {
+    "code": "insufficient_funds",
+    "message": "Payment declined due to insufficient funds",
+    "details": "Your account has insufficient funds to complete this transaction",
+    "transaction_id": "txn_7H8i9J0k1L2m3N4o5P6q7R8s"
+  },
+  "suggested_actions": [
+    {
+      "action": "try_alternative_method",
+      "description": "Use a different payment method",
+      "url": "/payment-methods"
+    },
+    {
+      "action": "reduce_amount", 
+      "description": "Pay a partial amount if allowed",
+      "url": "/bills/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+    },
+    {
+      "action": "contact_support",
+      "description": "Contact customer support for assistance",
+      "url": "/support"
+    }
+  ],
+  "retry_allowed": true,
+  "timestamp": "2025-10-05T14:30:00Z"
+}</pre>
+            </div>
+
+            <h3>Webhook Notification Schema</h3>
+            <div class="spec-detail">
+                <strong>Payment Confirmation Webhook:</strong>
+                <pre>
+{
+  "event_id": "evt_1A2b3C4d5E6f7G8h9I0jK1lM",
+  "event_type": "payment.succeeded",
+  "created": "2025-10-05T14:30:00Z",
+  "data": {
+    "transaction_id": "txn_7H8i9J0k1L2m3N4o5P6q7R8s",
+    "amount": 12575,
+    "currency": "usd",
+    "biller_reference": "UTIL-2025-10-001",
+    "user_id": "usr_a1b2c3d4e5f6",
+    "metadata": {
+      "bill_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "payment_method": "credit_card",
+      "receipt_url": "https://receipts.billpay.com/RCPT-2025-001-ABCDEF"
+    }
+  }
+}</pre>
+            </div>
+        </section>
+
+        <section id="data-flows" class="content-section">
+            <h2>Appendix C: Data Flow Diagrams</h2>
+            
+            <h3>Real-time Payment Processing Data Flow</h3>
+            <div class="diagram-container">
+                <div class="diagram-title">Payment Data Flow - Level 2 Detail</div>
+                <div class="mermaid">
+flowchart TD
+    subgraph ClientLayer [Client Layer]
+        A[User Browser<br/>HTTPS Request]
+        B[Payment Form<br/>Client-Side Validation]
+    end
+    
+    subgraph APILayer [API Gateway Layer]
+        C[API Gateway<br/>Rate Limiting & Auth]
+        D[Request Validation<br/>Schema Compliance]
+    end
+    
+    subgraph ProcessingLayer [Processing Layer]
+        E[Payment Service<br/>Transaction Orchestration]
+        F[Fraud Detection<br/>Risk Scoring Engine]
+        G[Balance Validation<br/>Funds Availability]
+        H[Compliance Check<br/>AML & Regulatory]
+    end
+    
+    subgraph ExternalLayer [External Systems]
+        I[Payment Gateway<br/>Stripe/Braintree]
+        J[Banking API<br/>Plaid/Yodlee]
+        K[Fraud Database<br/>External Intelligence]
+    end
+    
+    subgraph DataLayer [Data Layer]
+        L[Transaction DB<br/>ACID Compliance]
+        M[Audit Trail<br/>Immutable Logging]
+        N[Cache Layer<br/>Redis Cluster]
+    end
+    
+    A --> C
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    E --> G
+    E --> H
+    F --> K
+    G --> J
+    E --> I
+    E --> L
+    E --> M
+    E --> N
+    
+    style ClientLayer fill:#e3f2fd
+    style APILayer fill:#f3e5f5
+    style ProcessingLayer fill:#e8f5e8
+    style ExternalLayer fill:#fff3e0
+    style DataLayer fill:#fce4ec
+                </div>
+            </div>
+
+            <h3>Data Flow for Bill Processing</h3>
+            <div class="diagram-container">
+                <div class="diagram-title">Bill Ingestion and Processing Flow</div>
+                <div class="mermaid">
+flowchart LR
+    subgraph BillSources [Bill Sources]
+        A[Biller API<br/>REST/JSON]
+        B[Email Parsing<br/>IMAP & OCR]
+        C[Manual Entry<br/>Web Interface]
+        D[File Upload<br/>CSV/PDF]
+    end
+    
+    subgraph Processing [Processing Pipeline]
+        E[Ingestion Service<br/>Format Normalization]
+        F[Validation Engine<br/>Data Quality Checks]
+        G[Categorization<br/>Machine Learning]
+        H[User Matching<br/>Account Linking]
+    end
+    
+    subgraph Storage [Storage & Delivery]
+        I[Bill Database<br/>Structured Storage]
+        J[Document Storage<br/>S3 Bucket]
+        K[Notification Queue<br/>SQS]
+        L[User Dashboard<br/>Real-time Updates]
+    end
+    
+    A --> E
+    B --> E
+    C --> E
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    H --> J
+    H --> K
+    K --> L
+    
+    style BillSources fill:#e3f2fd
+    style Processing fill:#f3e5f5
+    style Storage fill:#e8f5e8
+                </div>
+            </div>
+        </section>
+
+        <section id="monitoring-specs" class="content-section">
+            <h2>Appendix D: Monitoring and Alerting Specifications</h2>
+            
+            <h3>System Monitoring Thresholds</h3>
+            <table class="monitoring-table">
+                <tr>
+                    <th>Metric</th>
+                    <th>Warning Threshold</th>
+                    <th>Critical Threshold</th>
+                    <th>Alert Channel</th>
+                    <th>Response Time SLA</th>
+                    <th>Auto-Remediation</th>
+                </tr>
+                <tr>
+                    <td>API Response Time</td>
+                    <td>> 2 seconds (p95)</td>
+                    <td>> 5 seconds (p95)</td>
+                    <td>PagerDuty High</td>
+                    <td>15 minutes</td>
+                    <td>Auto-scale API instances</td>
+                </tr>
+                <tr>
+                    <td>Error Rate</td>
+                    <td>> 1% (5-minute avg)</td>
+                    <td>> 5% (5-minute avg)</td>
+                    <td>PagerDuty Critical</td>
+                    <td>5 minutes</td>
+                    <td>Circuit breaker activation</td>
+                </tr>
+                <tr>
+                    <td>Payment Success Rate</td>
+                    <td>< 99% (30-minute avg)</td>
+                    <td>< 95% (30-minute avg)</td>
+                    <td>PagerDuty High</td>
+                    <td>10 minutes</td>
+                    <td>Payment gateway failover</td>
+                </tr>
+                <tr>
+                    <td>Database Connections</td>
+                    <td>> 80% capacity</td>
+                    <td>> 95% capacity</td>
+                    <td>Slack #alerts</td>
+                    <td>30 minutes</td>
+                    <td>Connection pool adjustment</td>
+                </tr>
+                <tr>
+                    <td>CPU Utilization</td>
+                    <td>> 70% (5-minute avg)</td>
+                    <td>> 90% (5-minute avg)</td>
+                    <td>PagerDuty Medium</td>
+                    <td>20 minutes</td>
+                    <td>Auto-scale infrastructure</td>
+                </tr>
+                <tr>
+                    <td>Memory Usage</td>
+                    <td>> 80% (5-minute avg)</td>
+                    <td>> 95% (5-minute avg)</td>
+                    <td>PagerDuty Medium</td>
+                    <td>20 minutes</td>
+                    <td>Container restart & scale</td>
+                </tr>
+            </table>
+            
+            <h3>Business Metrics Monitoring</h3>
+            <div class="spec-detail">
+                <strong>Key Performance Indicators (KPIs):</strong>
+                <ul>
+                    <li><strong>Payment Volume:</strong> Monitor for ±50% deviation from expected daily patterns</li>
+                    <li><strong>User Registration Rate:</strong> Alert if < 50% of 7-day moving average</li>
+                    <li><strong>Bill Payment Rate:</strong> Warning if < 80% of bills paid by due date</li>
+                    <li><strong>Customer Support Tickets:</strong> Critical if > 100 tickets/hour for payment issues</li>
+                    <li><strong>User Retention Rate:</strong> Alert if < 70% 30-day retention</li>
+                    <li><strong>Revenue Metrics:</strong> Monitor transaction fees and processing costs</li>
+                </ul>
+            </div>
+
+            <h3>Security Monitoring Specifications</h3>
+            <table class="monitoring-table">
+                <tr>
+                    <th>Security Event</th>
+                    <th>Detection Rule</th>
+                    <th>Severity</th>
+                    <th>Response Action</th>
+                </tr>
+                <tr>
+                    <td>Failed Login Attempts</td>
+                    <td>> 10 attempts from same IP in 5 minutes</td>
+                    <td><span class="alert-medium">Medium</span></td>
+                    <td>IP blocking, user notification</td>
+                </tr>
+                <tr>
+                    <td>Suspicious Payment Patterns</td>
+                    <td>> 5 payments from new device in 1 hour</td>
+                    <td><span class="alert-high">High</span></td>
+                    <td>MFA requirement, fraud review</td>
+                </tr>
+                <tr>
+                    <td>API Abuse Detection</td>
+                    <td>> 1000 requests/minute from single token</td>
+                    <td><span class="alert-high">High</span></td>
+                    <td>Token revocation, rate limiting</td>
+                </tr>
+                <tr>
+                    <td>Data Export Anomalies</td>
+                    <td>> 1GB data export by single user</td>
+                    <td><span class="alert-critical">Critical</span></td>
+                    <td>Export blocking, security review</td>
+                </tr>
+                <tr>
+                    <td>Unusual Geographic Access</td>
+                    <td>Login from new country without travel history</td>
+                    <td><span class="alert-medium">Medium</span></td>
+                    <td>MFA challenge, user verification</td>
+                </tr>
+            </table>
+        </section>
+        
+        <section id="glossary" class="content-section">
+            <h2>Appendix E: Glossary</h2>
+            
+            <table>
+                <tr>
+                    <th>Term</th>
+                    <th>Definition</th>
+                </tr>
+                <tr>
+                    <td>Biller</td>
+                    <td>An organization or entity that issues bills for payment, such as utility companies, telecommunications providers, or service providers. Billers may integrate via API or manual processes.</td>
+                </tr>
+                <tr>
+                    <td>Payment Gateway</td>
+                    <td>A PCI DSS compliant service that authorizes and processes electronic payments, acting as an intermediary between the bill payment system and financial institutions. Examples include Stripe, Braintree, and PayPal.</td>
+                </tr>
+                <tr>
+                    <td>Transaction</td>
+                    <td>A single payment operation involving the transfer of funds from a user to a biller through the system. Each transaction has a unique reference and audit trail.</td>
+                </tr>
+                <tr>
+                    <td>Recurring Payment</td>
+                    <td>A payment that is automatically processed at regular intervals for bills that repeat, such as monthly subscriptions. Requires explicit user authorization and stored payment method.</td>
+                </tr>
+                <tr>
+                    <td>Scheduled Payment</td>
+                    <td>A payment that is set up to be processed on a specific future date. Can be one-time or part of a recurring series with user-defined parameters.</td>
+                </tr>
+                <tr>
+                    <td>Payment Method</td>
+                    <td>The financial instrument used to make a payment, such as credit card, debit card, bank account, or digital wallet. Stored using tokenization for security.</td>
+                </tr>
+                <tr>
+                    <td>Receipt</td>
+                    <td>Digital proof of payment issued to the user after a successful transaction. Includes transaction details, timing, and unique identifiers in tamper-evident format.</td>
+                </tr>
+                <tr>
+                    <td>Due Date</td>
+                    <td>The date by which a bill must be paid to avoid late fees or service interruption. System provides reminders at configurable intervals before this date.</td>
+                </tr>
+                <tr>
+                    <td>MFA (Multi-Factor Authentication)</td>
+                    <td>Security system that requires more than one method of authentication from independent categories of credentials to verify the user's identity for a login or transaction.</td>
+                </tr>
+                <tr>
+                    <td>PCI DSS Compliance</td>
+                    <td>Adherence to the Payment Card Industry Data Security Standard - a set of security standards designed to ensure that all companies that accept, process, store or transmit credit card information maintain a secure environment.</td>
+                </tr>
+                <tr>
+                    <td>Idempotency Key</td>
+                    <td>A unique key used in API requests to ensure that duplicate requests do not result in duplicate operations, particularly important for payment processing.</td>
+                </tr>
+                <tr>
+                    <td>Webhook</td>
+                    <td>A mechanism for real-time communication between systems, where one system sends HTTP POST requests to another system when specific events occur.</td>
+                </tr>
+                <tr>
+                    <td>SLA (Service Level Agreement)</td>
+                    <td>A formal agreement that defines the level of service expected from a service provider, including availability, performance, and support metrics.</td>
+                </tr>
+            </table>
+        </section>
+        
+        <footer>
+            <p>Bill Payment System - Software Requirements Specification</p>
+            <p>Prepared by: Rakibul Hasan | ID: 011211068 | Course: CSE 3411 - System Analysis & Design</p>
+                     
+        </footer>
+    </div>
+</body>
+</html>
